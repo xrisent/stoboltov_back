@@ -18,6 +18,7 @@ export class ProductsService {
   }
 
   async create(productData: Partial<Product>, typeId: number) {
+    console.log(productData)
     const type = await this.typeRepository.findOne({ where: { id: typeId } });
     if (!type) {
       throw new Error('Type not found');

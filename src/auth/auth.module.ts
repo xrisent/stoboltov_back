@@ -11,7 +11,7 @@ import { JwtStrategy } from './jwt.strategy';
     PassportModule,
     JwtModule.register({
       secret: 'stoboltov',
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '30h' },
     }),
     forwardRef(() => UsersModule),
   ],

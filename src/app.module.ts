@@ -7,6 +7,7 @@ import { Product } from './products/products.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -19,6 +20,11 @@ import { User } from './users/user.entity';
       database: 'stoboltov', 
       entities: [Type, Product, User], 
       synchronize: true,
+    }),
+    MulterModule.register({
+      limits: {
+        fileSize: 10 * 1024 * 1024, 
+      },
     }),
     TypesModule,
     ProductsModule,

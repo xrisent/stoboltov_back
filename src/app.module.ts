@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
 import { MulterModule } from '@nestjs/platform-express';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
@@ -15,8 +17,8 @@ import { MulterModule } from '@nestjs/platform-express';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'postgres', 
-      password: 'ormonovitachi31261', 
+      username: `${process.env.POSTGRES_USERNAME}`, 
+      password: `${process.env.POSTGRES_PASSWORD}`, 
       database: 'stoboltov', 
       entities: [Type, Product, User], 
       synchronize: true,

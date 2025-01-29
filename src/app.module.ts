@@ -18,12 +18,8 @@ dotenv.config();
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: `${process.env.POSTGRES_USERNAME}`, 
-      password: `${process.env.POSTGRES_PASSWORD}`, 
-      database: 'stoboltov', 
-      entities: [Type, Product, User, News], 
+      url: process.env.DATABASE_URL,
+      entities: [Type, Product, User, News],
       synchronize: true,
     }),
     MulterModule.register({

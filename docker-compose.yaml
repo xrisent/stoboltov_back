@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: nest_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: stoboltov
+      POSTGRES_DB: stoboltov_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build: .
+    container_name: nest_app
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://admin:stoboltov@postgres:5432/stoboltov_db
+    ports:
+      - "3002:3002"
+    command: ["npm", "run", "start:prod"]
+
+volumes:
+  postgres_data:

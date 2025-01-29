@@ -8,7 +8,10 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
 import { MulterModule } from '@nestjs/platform-express';
+import { MailModule } from './mail/mail.module';
+import { NewsModule } from './news/news.module';
 import * as dotenv from 'dotenv';
+import { News } from './news/news.entity';
 dotenv.config();
 
 @Module({
@@ -20,7 +23,7 @@ dotenv.config();
       username: `${process.env.POSTGRES_USERNAME}`, 
       password: `${process.env.POSTGRES_PASSWORD}`, 
       database: 'stoboltov', 
-      entities: [Type, Product, User], 
+      entities: [Type, Product, User, News], 
       synchronize: true,
     }),
     MulterModule.register({
@@ -31,7 +34,9 @@ dotenv.config();
     TypesModule,
     ProductsModule,
     AuthModule,
-    UsersModule
+    UsersModule,
+    MailModule,
+    NewsModule
   ],
 })
 export class AppModule {}

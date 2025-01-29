@@ -44,7 +44,7 @@ export class Product {
   @ApiProperty({ description: 'Материал продукта' }) // Декоратор для material
   material: string;
 
-  @ManyToOne(() => Type, (type) => type.id)
-  @ApiProperty({ type: () => Type, description: 'Тип продукта' }) // Декоратор для связи с Type
+  @ManyToOne(() => Type, (type) => type.products, { nullable: true, onDelete: 'SET NULL' })
+  @ApiProperty({ type: () => Type, description: 'Тип продукта' })
   type: Type;
 }

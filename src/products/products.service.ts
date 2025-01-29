@@ -17,8 +17,11 @@ export class ProductsService {
     return this.productRepository.find({ relations: ['type', 'type.typeOf'] });
   }
 
+  async findOne(id: number) {
+    return this.productRepository.findOne({ where: { id }, relations: ['type', 'type.typeOf'] });
+  }
+
   async create(productData: Partial<Product>, typeId: number) {
-    console.log(productData)
     const type = await this.typeRepository.findOne({ where: { id: typeId } });
     if (!type) {
       throw new Error('Type not found');
@@ -28,16 +31,42 @@ export class ProductsService {
     return this.productRepository.save(product);
   }
 
+  async update(id: number, productData: Partial<Product>, typeId?: number) {
+    const product = await this.productRepository.findOne({ where: { id } });
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    if (typeId) {
+      const type = await this.typeRepository.findOne({ where: { id: typeId } });
+      if (!type) {
+        throw new Error('Type not found');
+      }
+      product.type = type;
+    }
+
+    Object.assign(product, productData);
+    return this.productRepository.save(product);
+  }
+
+  async delete(id: number) {
+    const product = await this.productRepository.findOne({ where: { id } });
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    await this.productRepository.remove(product);
+    return { message: 'Product deleted successfully' };
+  }
+
   async importProducts(data: any[]): Promise<void> {
     for (const row of data) {
-      // Проверяем, существует ли тип продукта
       let productType = await this.typeRepository.findOne({ where: { name: row.type } });
       if (!productType) {
         productType = this.typeRepository.create({ name: row.type });
         await this.typeRepository.save(productType);
       }
 
-      // Создаём продукт
       const product = this.productRepository.create({
         name: row.name,
         price_single: row.price_single,

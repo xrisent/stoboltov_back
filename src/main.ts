@@ -1,11 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import * as fs from 'fs';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const httpsOptions = {
+    key: fs.readFileSync('/etc/ssl/private/selfsigned.key'),
+    cert: fs.readFileSync('/etc/ssl/certs/selfsigned.crt'),
+  };
+
+  const app = await NestFactory.create(AppModule, { httpsOptions });
 
   app.enableCors({
     origin: '*',
@@ -14,8 +18,8 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Stoboltov documentaion')
-    .setDescription('сваггер для stoboltov')
+    .setTitle('Stoboltov Documentation')
+    .setDescription('Swagger для Stoboltov')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

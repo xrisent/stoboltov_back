@@ -25,6 +25,9 @@ services:
       DATABASE_URL: postgresql://admin:stoboltov@postgres:5432/stoboltov_db
     ports:
       - "3002:3002"
+      - "3443:3443"
+    volumes:
+      - ./ssl:/app/ssl 
     command: ["npm", "run", "start:prod"]
 
 volumes:

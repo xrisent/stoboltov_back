@@ -12,6 +12,7 @@ import { MailModule } from './mail/mail.module';
 import { NewsModule } from './news/news.module';
 import * as dotenv from 'dotenv';
 import { News } from './news/news.entity';
+import { ServicesModule } from './services/services.module';
 dotenv.config();
 
 @Module({
@@ -32,7 +33,8 @@ dotenv.config();
     AuthModule,
     UsersModule,
     MailModule,
-    NewsModule
+    NewsModule,
+    ServicesModule
   ],
 })
 export class AppModule {}

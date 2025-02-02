@@ -13,6 +13,11 @@ RUN npm install
 # Копируем все файлы проекта
 COPY . .
 
+RUN mkdir -p /app/ssl && \
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /app/ssl/selfsigned.key -out /app/ssl/selfsigned.crt \
+    -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
+
 # Копируем SSL-сертификаты в контейнер
 COPY ssl /app/ssl
 

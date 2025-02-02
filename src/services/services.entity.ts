@@ -1,6 +1,14 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
+class Feature {
+  @ApiProperty({ description: 'Название характеристики' })
+  name: string;
+
+  @ApiProperty({ description: 'Описание характеристики' })
+  description: string;
+}
+
 @Entity()
 export class Services {
   @PrimaryGeneratedColumn()
@@ -23,7 +31,7 @@ export class Services {
   @ApiProperty({ description: 'URL изображения услуги' })
   imageUrl: string;
 
-  @Column('simple-array')
-  @ApiProperty({ description: 'Список характеристик услуги', type: [String] })
-  features: string[];
+  @Column('json')
+  @ApiProperty({ description: 'Список характеристик услуги', type: [Feature] })
+  features: Feature[];
 }

@@ -44,6 +44,10 @@ export class Product {
   @ApiProperty({ description: 'Материал продукта' }) // Декоратор для material
   material: string;
 
+  @Column({ nullable: true })
+  @ApiProperty({ description: 'путь к картинке' })
+  image: string;
+
   @ManyToOne(() => Type, (type) => type.products, { nullable: true, onDelete: 'SET NULL' })
   @ApiProperty({ type: () => Type, description: 'Тип продукта' })
   type: Type;

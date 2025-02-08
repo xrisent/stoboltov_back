@@ -77,9 +77,10 @@ export class ProductsService {
         length: row.length,
         strength_class: row.strength_class,
         material: row.material,
+        image: row.image,
         type: productType,
       });
-
+            
       await this.productRepository.save(product);
     }
   }

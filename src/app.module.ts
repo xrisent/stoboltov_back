@@ -14,7 +14,15 @@ import * as dotenv from 'dotenv';
 import { News } from './news/news.entity';
 import { ServicesModule } from './services/services.module';
 import { Services } from './services/services.entity';
+import * as path from 'path';
+import * as fs from 'fs';
+
 dotenv.config();
+
+const uploadDir = path.join(__dirname, '..', 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 @Module({
   imports: [
@@ -26,7 +34,7 @@ dotenv.config();
     }),
     MulterModule.register({
       limits: {
-        fileSize: 10 * 1024 * 1024, 
+        fileSize: 10 * 1024 * 1024, // 10 MB
       },
     }),
     TypesModule,

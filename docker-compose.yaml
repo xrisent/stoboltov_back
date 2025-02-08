@@ -28,6 +28,7 @@ services:
       - "3443:3443"
     volumes:
       - ./ssl:/app/ssl 
+      - ./uploads:/app/dist/uploads
     command: ["npm", "run", "start:prod"]
 
 volumes:

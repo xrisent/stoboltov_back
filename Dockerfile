@@ -13,13 +13,13 @@ RUN npm install
 # Копируем все файлы проекта
 COPY . .
 
-RUN mkdir -p /app/ssl && \
+# Устанавливаем OpenSSL и создаем SSL-сертификат
+RUN apk add --no-cache openssl && \
+    mkdir -p /ssl && \
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /app/ssl/selfsigned.key -out /app/ssl/selfsigned.crt \
-    -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
-
-# Копируем SSL-сертификаты в контейнер
-COPY ssl /app/ssl
+    -keyout /ssl/selfsigned.key -out /ssl/selfsigned.crt \
+    -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost" && \
+    ls -la /ssl
 
 # Собираем TypeScript-код
 RUN npm run build

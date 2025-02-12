@@ -34,7 +34,7 @@ if (!fs.existsSync(uploadDir)) {
     }),
     MulterModule.register({
       limits: {
-        fileSize: 10 * 1024 * 1024, // 10 MB
+        fileSize: 50 * 1024 * 1024, // 10 MB
       },
     }),
     TypesModule,

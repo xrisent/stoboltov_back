@@ -4,6 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import * as express from 'express';
 
 const uploadDir = path.join(__dirname, '..', 'uploads');
 
@@ -14,15 +15,20 @@ if (!fs.existsSync(uploadDir)) {
 dotenv.config();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule); // HTTP-сервер
+  const app = await NestFactory.create(AppModule,{
+    bodyParser: false,
+  }); // HTTP-сервер
   const httpsOptions = {
     key: fs.readFileSync('ssl/selfsigned.key'),
     cert: fs.readFileSync('ssl/selfsigned.crt'),
   };
   const httpsApp = await NestFactory.create(AppModule, { httpsOptions }); // HTTPS-сервер
 
-  app.enableCors({ origin: '*', credentials: true });
-  httpsApp.enableCors({ origin: '*', credentials: true });
+  app.use(express.json({ limit: '50mb' })); // Увеличиваем лимит JSON
+  app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+  app.enableCors({ origin: ['http://localhost:3000', 'https://ebaf-31-192-255-131.ngrok-free.app'], credentials: true });
+  httpsApp.enableCors({ origin: ['http://localhost:3000', 'https://ebaf-31-192-255-131.ngrok-free.app'], credentials: true });
 
   const config = new DocumentBuilder()
     .setTitle('Stoboltov API')

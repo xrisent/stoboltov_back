@@ -12,6 +12,8 @@ export class MailService {
   });
 
   async sendMail(to: string, subject: string, text: string): Promise<void> {
+
+    console.log(to, subject, text)
     await this.transporter.sendMail({
       from: '"Заказ" stoboltovbot@gmail.com',
       to,

@@ -88,8 +88,13 @@ export class ProductsController {
     })
   )
   async uploadProducts(
-    @UploadedFiles() files: Express.Multer.File[] // Receive all files
+    @UploadedFiles() files: Express.Multer.File[], // Receive all files
+    @Res() res: Response
   ) {
+
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000, https://ebaf-31-192-255-131.ngrok-free.app'); // Разрешаем CORS
+    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     // Split files into xlsx and image files
     const xlsxFile = files.find(file => file.originalname.endsWith('.xlsx'));
     const imageFiles = files.filter(file => file.originalname.endsWith('.jpg') || file.originalname.endsWith('.png'));
